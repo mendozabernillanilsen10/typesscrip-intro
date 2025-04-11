@@ -1,32 +1,43 @@
 import './style.css';
 
-import viteLogo from '/vite.svg';
-
 import {
-  name,
-  template,
-} from './bases/01-types';
-import { setupCounter } from './counter.ts';
-import typescriptLogo from './typescript.svg';
+  Pokemon,
+  pokemons,
+} from './bases/03-clases';
 
-document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
-  <div>
-    <a href="https://vite.dev" target="_blank">
-      <img src="${viteLogo}" class="logo" alt="Vite logo" />
-    </a>
-    <a href="https://www.typescriptlang.org/" target="_blank">
-      <img src="${typescriptLogo}" class="logo vanilla" alt="TypeScript logo" />
-    </a>
-    <h1>"${name}"</h1>
+// tu archivo con la lista
 
-    <p>"${template}"</p>
-    <div class="card">
-      <button id="counter" type="button"></button>
+async function renderPokemon(pokemon: Pokemon): Promise<string> {
+  const moves = await pokemon.getMoves();
+  const moveNames = moves.slice(0, 5).map(m => m.move.name).join(', ');
+
+  return `
+    <li>
+      <h3>${pokemon.name}</h3>
+      <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokemon.id}.png" alt="${pokemon.name}" />
+      <p><strong>Tipo:</strong> ${pokemon.type}</p>
+      <p><strong>Nivel:</strong> ${pokemon.level}</p>
+      <p><strong>Vida:</strong> ${pokemon.hp}</p>
+      <p><strong>Ataque:</strong> ${pokemon.attack}</p>
+      <p><strong>Defensa:</strong> ${pokemon.defense}</p>
+      <p><strong>Velocidad:</strong> ${pokemon.speed}</p>
+      <p><strong>Estado:</strong> ${pokemon.status}</p>
+      <p><strong>Movimientos:</strong> ${moveNames}</p>
+    </li>
+  `;
+}
+
+async function renderApp() {
+  const itemsHTML = await Promise.all(pokemons.map(renderPokemon));
+
+  document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
+    <div>
+      <h1>Pokémon</h1>
+      <ul>
+        ${itemsHTML.join('')}
+      </ul>
     </div>
-    <p class="read-the-docs">
-      Click on the Vite and TypeScript logos to learn more
-    </p>
-  </div>
-`
+  `;
+}
 
-setupCounter(document.querySelector<HTMLButtonElement>('#counter')!)
+renderApp();
