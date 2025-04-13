@@ -1,43 +1,24 @@
 import './style.css';
 
 import {
-  Pokemon,
-  pokemons,
-} from './bases/03-clases';
+  charmander,
+} from './bases/06-decoration92'; // Si lo necesitas para el tipo
 
-// tu archivo con la lista
+// Si lo necesitas para el tipo
 
-async function renderPokemon(pokemon: Pokemon): Promise<string> {
-  const moves = await pokemon.getMoves();
-  const moveNames = moves.slice(0, 5).map(m => m.move.name).join(', ');
+// Si lo necesitas para el tipo
 
-  return `
-    <li>
-      <h3>${pokemon.name}</h3>
-      <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokemon.id}.png" alt="${pokemon.name}" />
-      <p><strong>Tipo:</strong> ${pokemon.type}</p>
-      <p><strong>Nivel:</strong> ${pokemon.level}</p>
-      <p><strong>Vida:</strong> ${pokemon.hp}</p>
-      <p><strong>Ataque:</strong> ${pokemon.attack}</p>
-      <p><strong>Defensa:</strong> ${pokemon.defense}</p>
-      <p><strong>Velocidad:</strong> ${pokemon.speed}</p>
-      <p><strong>Estado:</strong> ${pokemon.status}</p>
-      <p><strong>Movimientos:</strong> ${moveNames}</p>
-    </li>
-  `;
-}
+// Si lo necesitas para el tipo
 
-async function renderApp() {
-  const itemsHTML = await Promise.all(pokemons.map(renderPokemon));
+// Si lo necesitas para el tipo
 
-  document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
-    <div>
-      <h1>Pokémon</h1>
-      <ul>
-        ${itemsHTML.join('')}
-      </ul>
-    </div>
-  `;
-}
+const container = document.querySelector('#app')!;
 
-renderApp();
+container.innerHTML = `
+  <h1>Pokemon</h1>
+  <div class="card">
+    <h2>${charmander.name}</h2>
+    <p>${charmander.id}</p>
+    <button id="btn">Click me</button>
+  </div>
+`;
